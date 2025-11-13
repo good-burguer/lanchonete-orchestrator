@@ -1,0 +1,3 @@
+SERVICE_A_URL=http://container-name:8080
+REQUEST_TIMEOUT=
+APP_PORT=

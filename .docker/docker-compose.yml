@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: ./bin
+      dockerfile: Dockerfile
+    container_name: lanchonete_app_orchestrator
+    ports:
+      - "${APP_PORT}:8082"
+    volumes:
+      - ../:/app
+    env_file:
+      - .env
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8082 --reload
+    networks:
+      - shared_net
+
+networks:
+  shared_net:
+    external: true
+    name: shared_net
