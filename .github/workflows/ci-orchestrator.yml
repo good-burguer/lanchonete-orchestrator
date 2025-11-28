@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies (FastAPI, etc)
+      - name: Install dependencies (FastAPI, pytest, etc)
         run: |
           if [ -f .docker/bin/config/requirements.txt ]; then
             pip install -r .docker/bin/config/requirements.txt
@@ -28,12 +28,12 @@ jobs:
             echo "Arquivo .docker/bin/config/requirements.txt não encontrado."
             exit 1
           fi
+          pip install pytest pytest-cov
 
       - name: Run tests (se existir pasta tests/)
         run: |
           if [ -d app/tests ]; then
-            cd app
-            pytest --cov=app --cov-report=xml -q
+            pytest app/tests --cov=app --cov-report=xml:app/coverage.xml
           else
             echo "Nenhuma pasta de testes encontrada em app/tests, pulando etapa de testes."
           fi
