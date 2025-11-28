@@ -4,4 +4,4 @@ __pycache__/
 *.pyd
 
 # Pytest cache
-.pytest_cache/
+.pytest_cache/.venv/
