@@ -3,10 +3,6 @@ name: CI - Orchestrator
 on:
   pull_request:
     branches: ["main"]
-  # opcional: valida também pushes em branches de feature/fix
-  push:
-    branches:
-      - "**"
 
 permissions:
   contents: read
@@ -37,20 +33,15 @@ jobs:
         run: |
           if [ -d app/tests ]; then
             cd app
-            pytest -q
+            pytest --cov=app --cov-report=xml -q
           else
             echo "Nenhuma pasta de testes encontrada em app/tests, pulando etapa de testes."
           fi
-
-      # --- SonarCloud (ajustar quando o projeto estiver configurado lá) ---
-      # - name: SonarCloud Scan
-      #   if: always()  # roda mesmo se os testes falharem, pra reportar
-      #   uses: sonarsource/sonarcloud-github-action@v3
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   with:
-      #     projectBaseDir: app
-      #     args: >
-      #       -Dsonar.projectKey=good-burguer_lanchonete-orchestrator
-      #       -Dsonar.organization=good-burguer
-      #       -Dsonar.python.version=3.12
+      - name: SonarCloud Scan
+        if: always()  # roda mesmo se os testes falharem, pra reportar
+        uses: sonarsource/sonarcloud-github-action@v3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_GB }}
+        with:
+          # sonar-project.properties está na raiz do repositório
+          projectBaseDir: .
