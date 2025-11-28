@@ -31,9 +31,11 @@ jobs:
           pip install pytest pytest-cov
 
       - name: Run tests (se existir pasta tests/)
+        env:
+          PYTHONPATH: .
         run: |
           if [ -d app/tests ]; then
-            pytest app/tests --cov=app --cov-report=xml:app/coverage.xml
+            python -m pytest app/tests --cov=app --cov-report=xml:app/coverage.xml
           else
             echo "Nenhuma pasta de testes encontrada em app/tests, pulando etapa de testes."
           fi
