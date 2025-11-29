@@ -13,7 +13,7 @@ env:
 
 jobs:
   deploy:
-    name: Build & Push Docker Image + SonarCloud (main)
+    name: Build & Push Docker Image + SonarCloud (main) + Deploy to EKS
     runs-on: ubuntu-latest
 
     permissions:
@@ -101,4 +101,27 @@ jobs:
 
       - name: Wait for rollout to finish
         run: |
-          kubectl rollout status deployment/lanchonete-orchestrator -n app
+          kubectl rollout status deployment/lanchonete-orchestrator -n app --timeout=120s
+
+      - name: Debug deployment on failure
+        if: failure()
+        run: |
+          echo "==== Deployment describe ===="
+          kubectl describe deployment lanchonete-orchestrator -n app || true
+
+          echo "==== Pods (label app=lanchonete-orchestrator) ===="
+          kubectl get pods -n app -l app=lanchonete-orchestrator -o wide || true
+
+          echo "==== Selecting first pod for detailed logs ===="
+          POD_NAME=$(kubectl get pods -n app -l app=lanchonete-orchestrator -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || echo "")
+          echo "POD_NAME=${POD_NAME}"
+
+          if [ -n "$POD_NAME" ]; then
+            echo "---- Pod describe ----"
+            kubectl describe pod "$POD_NAME" -n app || true
+
+            echo "---- Container logs ----"
+            kubectl logs "$POD_NAME" -n app || true
+          else
+            echo "Nenhum pod encontrado com label app=lanchonete-orchestrator"
+          fi
