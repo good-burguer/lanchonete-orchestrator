@@ -215,3 +215,5 @@ Para dúvidas sobre:
 - Deploy saudável no cluster → **OK**
 
 Este microserviço está **totalmente pronto para produção** dentro da arquitetura Good Burguer.
+---
+
