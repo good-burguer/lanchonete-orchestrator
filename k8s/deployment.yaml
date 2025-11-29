@@ -27,10 +27,10 @@ spec:
               memory: "512Mi"
               cpu: "500m"
           readinessProbe:
-            httpGet: { path: /, port: 8080 }
+            httpGet: { path: /health, port: 8080 }
             initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
-            httpGet: { path: /, port: 8080 }
+            httpGet: { path: /health, port: 8080 }
             initialDelaySeconds: 20
             periodSeconds: 20
