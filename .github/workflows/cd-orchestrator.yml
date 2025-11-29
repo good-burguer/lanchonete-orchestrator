@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-    workflow_dispatch:
+  workflow_dispatch:
 
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
@@ -76,3 +76,29 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           echo "Image pushed to: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}"
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig \
+            --name gb-dev-eks \
+            --region ${{ env.AWS_REGION }}
+
+      - name: Verify kubectl connectivity
+        run: |
+          kubectl get nodes
+
+      - name: Deploy Kubernetes manifests (Deployment + Service)
+        env:
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          export IMAGE_URI="${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}"
+          echo "Using image: $IMAGE_URI"
+
+          # Substitui a imagem dentro do Deployment usando envsubst
+          envsubst < k8s/deployment.yaml | kubectl apply -n app -f -
+          kubectl apply -n app -f k8s/service.yaml
+
+      - name: Wait for rollout to finish
+        run: |
+          kubectl rollout status deployment/lanchonete-orchestrator -n app
