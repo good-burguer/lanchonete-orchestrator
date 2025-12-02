@@ -17,8 +17,6 @@ __docker_volumes__/
 # VSCode settings
 .vscode/
 
-# Pytest cache
-.pytest_cache/
 
 # Alembic cache
 alembic/versions/*.pyc
@@ -32,3 +30,5 @@ alembic/versions/*.pyc
 
 # Logs
 *.log
+.pytest_cache/.venv/
+.venv/
