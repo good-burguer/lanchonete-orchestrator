@@ -1,8 +1,34 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Pytest cache
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
+
+# Docker volumes e banco local
+__docker_volumes__/
+*.db
+
+# VSCode settings
+.vscode/
+
+
+# Alembic cache
+alembic/versions/*.pyc
+
+# Arquivos de ambiente
+.env
+.env.*
+
+# MacOS files
+.DS_Store
+
+# Logs
+*.log
 .pytest_cache/.venv/
 .venv/
