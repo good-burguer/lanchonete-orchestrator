@@ -14,7 +14,7 @@ RUN pip install --upgrade pip \
 COPY . .
 
 # Expõe a porta padrão do FastAPI
-EXPOSE 8082
+EXPOSE 8080
 
 # Comando para iniciar a aplicação
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8082", "--reload"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
