@@ -66,3 +66,27 @@ class OrchestrateController:
             return result_data.get('status')
         except Exception as e:
             raise Exception(f"Payment update failed: {str(e)}")
+        
+    async def create_costumer(self, customer_payload: dict):
+        try:    
+            response = await asyncio.gather(
+                async_request("POST", f"{SERVICE_PRODUCTION_URL}/clientes/", json=customer_payload),
+                return_exceptions=True,
+            )
+            result_data = response[0]
+            
+            return result_data.get('data').get('id')
+        except Exception as e:
+            raise Exception(f"Orchestration failed: {str(e)}")
+        
+    async def create_product(self, product_payload: dict):
+        try:    
+            response = await asyncio.gather(
+                async_request("POST", f"{SERVICE_PRODUCTION_URL}/produtos/", json=product_payload),
+                return_exceptions=True,
+            )
+            result_data = response[0]
+            
+            return result_data.get('data').get('id')
+        except Exception as e:
+            raise Exception(f"Orchestration failed: {str(e)}")
