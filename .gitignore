@@ -32,3 +32,5 @@ alembic/versions/*.pyc
 *.log
 .pytest_cache/.venv/
 .venv/
+
+app/api/__pycache__/
