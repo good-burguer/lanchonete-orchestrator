@@ -32,3 +32,25 @@ async def run_webhook_orchestration(payment_data: PagamentoAtualizaWebhookSchema
         }
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    
+@router.post("/costumer")
+async def create_costumer(payload_data: dict):
+    try:
+        costumer_id = await OrchestrateController().create_costumer(payload_data)
+
+        return {
+            "costumer_response": costumer_id
+        }
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    
+@router.post("/product")
+async def create_product(payload_data: dict):
+    try:
+        product_id = await OrchestrateController().create_product(payload_data)
+
+        return {
+            "product_response": product_id
+        }
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
