@@ -16,6 +16,7 @@ class OrchestrateController:
                     async_request("GET", f"{SERVICE_PRODUCTION_URL}/clientes/cpf/{payload_data.get("cpf")}"),
                     return_exceptions=True,
                 )
+                var_dump_die(response)
                 result_data = response[0]
                 
                 if result_data.get('data') is not None:
@@ -33,6 +34,7 @@ class OrchestrateController:
                 async_request("POST", f"{SERVICE_ORDER_URL}/pedidos/", json=order_payload),
                 return_exceptions=True,
             )
+            var_dump_die(response)
             result_data = response[0]
             
             return result_data.get('data').get('id')
@@ -45,6 +47,7 @@ class OrchestrateController:
                 async_request("POST", f"{SERVICE_PAYMENT_URL}/pagamento/", json=payment_payload),
                 return_exceptions=True,
             )
+            var_dump_die(response)
             result_data = response[0]
 
             return result_data.get('data').get('codigo_pagamento')
@@ -61,6 +64,7 @@ class OrchestrateController:
                 async_request("POST", f"{SERVICE_PAYMENT_URL}/webhook/update-payment", json=webhook_payload),
                 return_exceptions=True,
             )
+            var_dump_die(webhook_result)
             result_data = webhook_result[0]
             
             return result_data.get('status')
