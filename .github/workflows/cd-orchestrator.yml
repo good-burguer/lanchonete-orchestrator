@@ -10,6 +10,9 @@ env:
   AWS_REGION: ${{ vars.AWS_REGION }}
   ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
   IMAGE_TAG: ${{ github.sha }}
+  SERVICE_PRODUCTION_URL: ${{ vars.SERVICE_PRODUCTION_URL }}
+  SERVICE_ORDER_URL: ${{ vars.SERVICE_ORDER_URL }}
+  SERVICE_PAYMENT_URL: ${{ vars.SERVICE_PAYMENT_URL }}
 
 jobs:
   deploy:
