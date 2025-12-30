@@ -95,6 +95,10 @@ class OrchestrateController:
         
     async def debug_endpoint(self):
         try:
-            var_dump_die("PRODUCTION: "+ SERVICE_PRODUCTION_URL, "ORDER: "+SERVICE_ORDER_URL, "PAYMENT: ",SERVICE_PAYMENT_URL)
+            var_dump_die(
+                "PRODUCTION: " + str(SERVICE_PRODUCTION_URL),
+                "ORDER: " + str(SERVICE_ORDER_URL),
+                "PAYMENT: " + str(SERVICE_PAYMENT_URL)
+            )
         except Exception as e:
             raise Exception(f"Orchestration failed: {str(e)}")
