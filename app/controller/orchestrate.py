@@ -70,7 +70,7 @@ class OrchestrateController:
     async def create_costumer(self, customer_payload: dict):
         try:    
             response = await asyncio.gather(
-                async_request("POST", f"http://lanchonete-producao-5f49f69d7d-hq2tx/clientes/", json=customer_payload),
+                async_request("POST", f"{SERVICE_PRODUCTION_URL}/clientes/", json=customer_payload),
                 return_exceptions=True,
             )
             var_dump_die(response)
@@ -83,7 +83,7 @@ class OrchestrateController:
     async def create_product(self, product_payload: dict):
         try:    
             response = await asyncio.gather(
-                async_request("POST", f"http://lanchonete-producao-5f49f69d7d-hq2tx/produtos/", json=product_payload),
+                async_request("POST", f"{SERVICE_PRODUCTION_URL}/produtos/", json=product_payload),
                 return_exceptions=True,
             )
             var_dump_die(response)
