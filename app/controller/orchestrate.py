@@ -33,7 +33,6 @@ class OrchestrateController:
                 async_request("POST", f"{SERVICE_ORDER_URL}/pedidos/", json=order_payload),
                 return_exceptions=True,
             )
-            var_dump_die(response)
             result_data = response[0]
             
             return result_data.get('data').get('id')
