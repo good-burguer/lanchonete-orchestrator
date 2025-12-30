@@ -13,7 +13,7 @@ env:
   SERVICE_PRODUCTION_URL: ${{ vars.SERVICE_PRODUCTION_URL }}
   SERVICE_ORDER_URL: ${{ vars.SERVICE_ORDER_URL }}
   SERVICE_PAYMENT_URL: ${{ vars.SERVICE_PAYMENT_URL }}
-
+  REQUEST_TIMEOUT: ${{ vars.REQUEST_TIMEOUT }}
 jobs:
   deploy:
     name: Build & Push Docker Image + SonarCloud (main) + Deploy to EKS
