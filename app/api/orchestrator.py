@@ -57,4 +57,7 @@ async def create_product(payload_data: dict):
     
 @router.get("/debug")
 async def debug():
-    await OrchestrateController().debug()
+    try:
+        await OrchestrateController().debug_endpoint()
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
