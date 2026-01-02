@@ -15,6 +15,18 @@ spec:
         - name: orchestrator
           image: "${IMAGE_URI}"
           imagePullPolicy: Always
+          env:
+            - name: SERVICE_PRODUCTION_URL
+              value: "${SERVICE_PRODUCTION_URL}"
+
+            - name: SERVICE_ORDER_URL
+              value: "${SERVICE_ORDER_URL}"
+
+            - name: SERVICE_PAYMENT_URL
+              value: "${SERVICE_PAYMENT_URL}"
+
+            - name: REQUEST_TIMEOUT
+              value: "${REQUEST_TIMEOUT}"
           ports:
             - containerPort: 8080
           command: ["python"]

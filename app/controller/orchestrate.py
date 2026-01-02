@@ -90,3 +90,11 @@ class OrchestrateController:
             return result_data.get('data').get('id')
         except Exception as e:
             raise Exception(f"Orchestration failed: {str(e)}")
+        
+    async def debug_endpoint(self):
+        try:
+            var_dump_die(
+                f"PRODUCTION: {SERVICE_PRODUCTION_URL}\n"f"ORDER: {SERVICE_ORDER_URL}\n"f"PAYMENT: {SERVICE_PAYMENT_URL}"
+            )
+        except Exception as e:
+            raise Exception(f"Orchestration failed: {str(e)}")
