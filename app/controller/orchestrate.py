@@ -45,6 +45,7 @@ class OrchestrateController:
                 async_request("POST", f"{SERVICE_PAYMENT_URL}/pagamento/", json=payment_payload),
                 return_exceptions=True,
             )
+            var_dump_die(response)
             result_data = response[0]
 
             return result_data.get('data').get('codigo_pagamento')
