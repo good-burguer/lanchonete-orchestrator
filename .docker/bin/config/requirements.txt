@@ -7,3 +7,5 @@ pytest
 pytest-bdd
 pytest-asyncio
 pytest-cov==4.1.0
+pydantic[email]
+bleach
