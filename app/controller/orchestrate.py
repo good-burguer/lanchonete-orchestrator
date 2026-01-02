@@ -9,11 +9,11 @@ class OrchestrateController:
     def __init__(self):
         pass
     
-    async def obtain_client_id(self, payload_data: dict):
+    async def obtain_client_id(self, cpf: int):
         try:    
-            if payload_data.get("cpf") is not None:                
+            if cpf is not None:                
                 response = await asyncio.gather(
-                    async_request("GET", f"{SERVICE_PRODUCTION_URL}/clientes/cpf/{payload_data.get("cpf")}"),
+                    async_request("GET", f"{SERVICE_PRODUCTION_URL}/clientes/cpf/{cpf}"),
                     return_exceptions=True,
                 )
                 result_data = response[0]
@@ -68,12 +68,11 @@ class OrchestrateController:
             raise Exception(f"Payment update failed: {str(e)}")
         
     async def create_costumer(self, customer_payload: dict):
-        try:    
+        try:
             response = await asyncio.gather(
-                async_request("POST", f"http://lanchonete-producao-5f49f69d7d-hq2tx/clientes/", json=customer_payload),
+                async_request("POST", f"{SERVICE_PRODUCTION_URL}/clientes/", json=customer_payload.model_dump()),
                 return_exceptions=True,
             )
-            var_dump_die(response)
             result_data = response[0]
             
             return result_data.get('data').get('id')
@@ -83,10 +82,9 @@ class OrchestrateController:
     async def create_product(self, product_payload: dict):
         try:    
             response = await asyncio.gather(
-                async_request("POST", f"http://lanchonete-producao-5f49f69d7d-hq2tx/produtos/", json=product_payload),
+                async_request("POST", f"{SERVICE_PRODUCTION_URL}/produtos/", json=product_payload.model_dump()),
                 return_exceptions=True,
             )
-            var_dump_die(response)
             result_data = response[0]
             
             return result_data.get('data').get('id')
