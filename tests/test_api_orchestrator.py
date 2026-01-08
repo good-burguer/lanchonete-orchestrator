@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 import pytest
 
 from app.infrastructure.api.fastapi import app as fastapi_app
+import app.main  # ensures routers are included on the app
 
 
 @pytest.fixture
