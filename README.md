@@ -44,8 +44,9 @@ lanchonete-orchestrator/
 │   ├── adapters/            → DTOs e enums
 │   ├── utils/               → Logs e ferramentas
 │   ├── infrastructure/      → API server (FastAPI bootstrap)
-│   ├── tests/               → Testes unitários
 │   └── main.py              → App FastAPI principal + /health
+│
+├── tests/                   → Testes unitários e de integração (pytest)
 │
 ├── k8s/
 │   ├── deployment.yaml      → Deployment + probes + imagem via envsubst
@@ -55,9 +56,11 @@ lanchonete-orchestrator/
 │   └── bin/Dockerfile       → Dockerfile oficial do serviço
 │
 ├── .github/workflows/
-│   ├── ci-orchestrator.yml  → Testes + SonarCloud (PR)
+│   ├── ci-orchestrator.yml  → Testes + Coverage + SonarCloud (PR)
 │   └── cd-orchestrator.yml  → Build + Push ECR + Deploy EKS (main)
 │
+├── pyproject.toml           → Configuração única de testes e coverage
+├── sonar-project.properties → Configuração do SonarCloud
 └── README.md
 ```
 
@@ -67,12 +70,18 @@ lanchonete-orchestrator/
 
 O CI roda **somente em Pull Requests** e garante que nada chega na `main` com erros.
 
-Etapas:
+- Os testes são executados via `python -m pytest`
+- O coverage é gerado automaticamente em `coverage.xml`
+- A configuração de testes e coverage vem exclusivamente do `pyproject.toml`
 
-1. Instala dependências
-2. Executa `pytest` + coverage
-3. Envia resultados ao SonarCloud
-4. Bloqueia merge se o pipeline falhar
+Etapas do CI:
+
+1. Checkout do código (histórico completo para SCM/Sonar)
+2. Instalação das dependências
+3. Execução de `python -m pytest`
+4. Geração automática do `coverage.xml`
+5. Análise de qualidade e cobertura no SonarCloud
+6. Bloqueio de merge caso o Quality Gate falhe
 
 Check obrigatório sugerido:  
 ✔ `Run Tests + SonarCloud`
@@ -82,6 +91,8 @@ Check obrigatório sugerido:
 ## 🚀 Fluxo de CD – Build + Deploy Automático
 
 O CD roda **somente na main**, após o merge aprovado.
+
+- O CD **não reexecuta testes**, apenas consome o `coverage.xml` já gerado no CI para análise contínua na branch `main`.
 
 Etapas:
 
@@ -209,9 +220,10 @@ Para dúvidas sobre:
 
 ## 🎉 Status Atual
 
-- CI + cobertura + SonarCloud → **100% funcional**
+- CI com pytest + coverage + SonarCloud → **ativo e validado**
 - CD automático para EKS → **ativo**
-- Probes → **funcionando**
+- Padrão de qualidade unificado com os demais microserviços
+- Probes e health check → **operacionais**
 - Deploy saudável no cluster → **OK**
 
 Este microserviço está **totalmente pronto para produção** dentro da arquitetura Good Burguer.
