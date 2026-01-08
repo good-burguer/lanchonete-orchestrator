@@ -1,5 +1,3 @@
-
-
 # Lanchonete Orchestrator
 
 O **Lanchonete Orchestrator** é o serviço responsável por coordenar chamadas entre os microserviços do ecossistema *Good Burguer*.  
@@ -44,8 +42,8 @@ lanchonete-orchestrator/
 │   ├── adapters/            → DTOs e enums
 │   ├── utils/               → Logs e ferramentas
 │   ├── infrastructure/      → API server (FastAPI bootstrap)
-│   ├── tests/               → Testes unitários
-│   └── main.py              → App FastAPI principal + /health
+│
+├── tests/                   → Testes unitários
 │
 ├── k8s/
 │   ├── deployment.yaml      → Deployment + probes + imagem via envsubst
@@ -70,7 +68,7 @@ O CI roda **somente em Pull Requests** e garante que nada chega na `main` com er
 Etapas:
 
 1. Instala dependências
-2. Executa `pytest` + coverage
+2. Executa `pytest` + coverage (configurado via `pyproject.toml` e gerando `coverage.xml` na raiz do repositório)
 3. Envia resultados ao SonarCloud
 4. Bloqueia merge se o pipeline falhar
 
@@ -93,6 +91,8 @@ Etapas:
 6. Aplicação no EKS via `kubectl apply`
 7. Aguardar rollout (`kubectl rollout status`)
 8. (Em caso de falha) logs completos do pod + describe
+
+> Nota: O CD **não gera coverage**, apenas consome os resultados já validados no CI.
 
 ---
 
@@ -213,7 +213,7 @@ Para dúvidas sobre:
 - CD automático para EKS → **ativo**
 - Probes → **funcionando**
 - Deploy saudável no cluster → **OK**
+- Cobertura centralizada via `pyproject.toml` e compartilhada entre todos os serviços Good Burguer
 
 Este microserviço está **totalmente pronto para produção** dentro da arquitetura Good Burguer.
 ---
-
